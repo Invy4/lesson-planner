@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogOut, Plus, Calendar, Zap } from 'lucide-react';
+import { LogOut, Plus, Calendar, Zap, Sparkles } from 'lucide-react';
 import './Sidebar.css';
 
 export default function Sidebar({ 
@@ -11,6 +11,7 @@ export default function Sidebar({
   onOpenCreate, 
   onOpenCalendar,
   onGoToCurrent,
+  onOpenAiCreate,
   CLASSES 
 }) {
   // Get teacher's first letter for initials avatar placeholder
@@ -108,6 +109,16 @@ export default function Sidebar({
 
       {/* 4. Action Buttons (Teach Current, Creation & Calendar Triggers) */}
       <div className="sidebar-section action-section">
+        <button 
+          type="button" 
+          className="sidebar-ai-generator-btn"
+          onClick={onOpenAiCreate}
+          title="Auto-create a complete curriculum plan using n8n AI!"
+        >
+          <Sparkles size={20} strokeWidth={2.5} fill="currentColor" />
+          <span>AI Lesson Builder</span>
+        </button>
+
         <button 
           type="button" 
           className="sidebar-current-lesson-btn"

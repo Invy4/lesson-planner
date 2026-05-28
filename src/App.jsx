@@ -393,9 +393,16 @@ export default function App() {
 
   // n8n Webhook settings state
   const [n8nWebhookUrl, setN8nWebhookUrl] = useState(() => {
-    return localStorage.getItem('preschool_n8n_webhook') || '';
+    const saved = localStorage.getItem('preschool_n8n_webhook');
+    // Force set the correct production URL if cache is empty, old, or pointing to a test webhook
+    if (!saved || saved.trim() === '' || saved.includes('/webhook-test/') || saved.includes('lify-lignis')) {
+      return 'https://iify-iignis-0.app.n8n.cloud/webhook/generate-full-lesson';
+    }
+    return saved;
   });
   const [isGenerating, setIsGenerating] = useState(false);
+  const [aiPreviewData, setAiPreviewData] = useState(null);
+  const [isAiModeOnly, setIsAiModeOnly] = useState(false);
 
   // --------------------------------------------------------------------------
   // 2. EFFECTS
@@ -548,6 +555,34 @@ export default function App() {
     }
   };
 
+  const checkTimeConflict = (date, startStr, endStr, excludeId = null) => {
+    const newStart = parseLessonTime(date, formatTimeInput(startStr));
+    const newEnd = parseLessonTime(date, formatTimeInput(endStr));
+    
+    // 1. Check if start time is behind end time
+    if (newStart >= newEnd) {
+      return { conflict: true, message: "⚠️ Invalid Time: The Start Time must be earlier than the End Time!" };
+    }
+    
+    // 2. Check for overlaps with existing lessons on the same date
+    const sameDayLessons = lessons.filter(l => l.date === date && l.id !== excludeId);
+    
+    for (let lesson of sameDayLessons) {
+      const existStart = parseLessonTime(lesson.date, lesson.startTime);
+      const existEnd = parseLessonTime(lesson.date, lesson.endTime);
+      
+      // Overlap condition: (newStart < existEnd) && (newEnd > existStart)
+      if (newStart < existEnd && newEnd > existStart) {
+        return { 
+          conflict: true, 
+          message: `⚠️ Time Conflict: "${lesson.topic}" is already scheduled from ${lesson.startTime} to ${lesson.endTime} on this day! Please select a different time.` 
+        };
+      }
+    }
+    
+    return { conflict: false };
+  };
+
   const handleN8nGeneration = async (customPromptDetails = "") => {
     if (!newPlan.topic.trim()) {
       alert("⚠️ Please enter a playful topic name first!");
@@ -556,6 +591,13 @@ export default function App() {
     
     if (!n8nWebhookUrl.trim()) {
       alert("⚠️ Please enter your n8n Webhook URL first in the generator settings box!");
+      return;
+    }
+
+    // Check for timeline conflicts BEFORE querying n8n
+    const conflictCheck = checkTimeConflict(newPlan.date, newPlan.startTime, newPlan.endTime);
+    if (conflictCheck.conflict) {
+      alert(conflictCheck.message);
       return;
     }
     
@@ -606,46 +648,96 @@ export default function App() {
         finalSteps = data.steps.split('\n').map(s => s.trim()).filter(s => s.length > 0);
       }
       
-      const newlyCreated = {
-        id: `lesson-n8n-${Date.now()}`,
+      const previewData = {
         className: newPlan.className,
         topic: finalTopic,
         category: finalCategory,
         date: newPlan.date,
-        startTime: formatTimeInput(newPlan.startTime),
-        endTime: formatTimeInput(newPlan.endTime),
+        startTime: newPlan.startTime,
+        endTime: newPlan.endTime,
         learningOutcome: finalOutcome,
         materials: finalMaterials,
-        steps: finalSteps,
-        completed: false,
-        customImage: ''
+        steps: finalSteps
       };
       
-      setLessons(prev => [newlyCreated, ...prev]);
-      setIsModalOpen(false);
-      
-      // Reset plan form states
-      setNewPlan({
-        className: profile.class || CLASSES[0],
-        topic: '',
-        category: 'Science',
-        date: new Date().toISOString().split('T')[0],
-        startTime: '09:00',
-        endTime: '09:45',
-        learningOutcome: '',
-        materialsInput: '',
-        steps: [],
-        imageFile: ''
-      });
-      
+      setAiPreviewData(previewData);
       triggerConfetti();
-      alert(`🚀 n8n AI successfully generated and scheduled: "${finalTopic}" on ${formatDateFriendly(newPlan.date)}!`);
+      alert("✨ n8n AI successfully drafted your curriculum! Review the card preview in the modal.");
     } catch (error) {
       console.error("n8n Generation failed:", error);
       alert(`❌ n8n Generation failed: ${error.message}.\n\nPlease ensure your n8n workflow is active, you are using the correct production webhook URL (not the test one if calling cross-origin), and "Respond with CORS Headers" options are enabled inside n8n node settings!`);
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const handleConfirmAiPlan = () => {
+    if (!aiPreviewData) return;
+    
+    const conflictCheck = checkTimeConflict(
+      aiPreviewData.date, 
+      aiPreviewData.startTime, 
+      aiPreviewData.endTime
+    );
+    if (conflictCheck.conflict) {
+      alert(conflictCheck.message);
+      return;
+    }
+    
+    const newlyCreated = {
+      id: `lesson-n8n-${Date.now()}`,
+      className: aiPreviewData.className,
+      topic: aiPreviewData.topic,
+      category: aiPreviewData.category,
+      date: aiPreviewData.date,
+      startTime: formatTimeInput(aiPreviewData.startTime),
+      endTime: formatTimeInput(aiPreviewData.endTime),
+      learningOutcome: aiPreviewData.learningOutcome,
+      materials: aiPreviewData.materials,
+      steps: aiPreviewData.steps,
+      completed: false,
+      customImage: ''
+    };
+    
+    setLessons(prev => [newlyCreated, ...prev]);
+    setAiPreviewData(null);
+    setIsModalOpen(false);
+    
+    // Reset plan form states
+    setNewPlan({
+      className: profile.class || CLASSES[0],
+      topic: '',
+      category: 'Science',
+      date: new Date().toISOString().split('T')[0],
+      startTime: '09:00',
+      endTime: '09:45',
+      learningOutcome: '',
+      materialsInput: '',
+      steps: [],
+      imageFile: ''
+    });
+    
+    triggerConfetti();
+  };
+
+  const handleEditAiPlan = () => {
+    if (!aiPreviewData) return;
+    
+    setNewPlan({
+      className: aiPreviewData.className,
+      topic: aiPreviewData.topic,
+      category: aiPreviewData.category,
+      date: aiPreviewData.date,
+      startTime: aiPreviewData.startTime,
+      endTime: aiPreviewData.endTime,
+      learningOutcome: aiPreviewData.learningOutcome,
+      materialsInput: aiPreviewData.materials.join(', '),
+      steps: aiPreviewData.steps,
+      imageFile: ''
+    });
+    
+    setAiPreviewData(null);
+    setIsAiModeOnly(false); // Enable manual editing of the generated fields!
   };
 
   const parseLessonTime = (dateStr, timeStr) => {
@@ -743,6 +835,13 @@ export default function App() {
   const handleCreatePlan = (e) => {
     e.preventDefault();
     if (!newPlan.topic.trim()) return;
+
+    // Check for timeline conflicts
+    const conflictCheck = checkTimeConflict(newPlan.date, newPlan.startTime, newPlan.endTime);
+    if (conflictCheck.conflict) {
+      alert(conflictCheck.message);
+      return;
+    }
 
     const materialsArray = newPlan.materialsInput
       ? newPlan.materialsInput.split(',').map(m => m.trim()).filter(m => m.length > 0)
@@ -849,9 +948,16 @@ export default function App() {
           activeClassFilter={activeClassFilter} 
           setActiveClassFilter={setActiveClassFilter} 
           stats={stats} 
-          onOpenCreate={() => setIsModalOpen(true)} 
+          onOpenCreate={() => {
+            setIsAiModeOnly(false);
+            setIsModalOpen(true);
+          }} 
           onOpenCalendar={() => setIsCalendarOpen(true)}
           onGoToCurrent={handleGoToCurrent}
+          onOpenAiCreate={() => {
+            setIsAiModeOnly(true);
+            setIsModalOpen(true);
+          }}
           CLASSES={CLASSES} 
         />
 
@@ -942,7 +1048,11 @@ export default function App() {
       {/* Add New Lesson Plan Modal */}
       <CreateModal 
         isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+        onClose={() => {
+          setIsModalOpen(false);
+          setIsAiModeOnly(false);
+        }} 
+        isAiModeOnly={isAiModeOnly}
         newPlan={newPlan} 
         setNewPlan={setNewPlan} 
         onCreate={handleCreatePlan} 
@@ -956,6 +1066,10 @@ export default function App() {
         setN8nWebhookUrl={setN8nWebhookUrl}
         isGenerating={isGenerating}
         onGenerateN8n={handleN8nGeneration}
+        aiPreviewData={aiPreviewData}
+        setAiPreviewData={setAiPreviewData}
+        onConfirmAiPlan={handleConfirmAiPlan}
+        onEditAiPlan={handleEditAiPlan}
       />
 
       {/* Full-screen storybook detailed page */}

@@ -298,6 +298,34 @@
   box-shadow: none;
 }
 
+.sidebar-ai-generator-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #FF9212, #D12E8B);
+  color: white;
+  font-family: var(--font-playful);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 #B02073;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s;
+}
+
+.sidebar-ai-generator-btn:hover {
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 #B02073;
+  filter: brightness(1.05);
+}
+
+.sidebar-ai-generator-btn:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
 @media (max-width: 1100px) {
   .dashboard-sidebar {
     width: 100%;
