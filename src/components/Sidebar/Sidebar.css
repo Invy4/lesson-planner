@@ -1,0 +1,307 @@
+.dashboard-sidebar {
+  width: 380px;
+  flex-shrink: 0;
+  background: var(--card-bg);
+  border-right: 2px solid var(--border-color);
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0; /* Flat flush side-pane */
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 80px); /* Stretches flush under header to screen bottom */
+  position: sticky;
+  top: 80px; /* Locked flush below the header */
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+/* Sections divider layout - bigger spacing */
+.sidebar-section {
+  padding: 24px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.sidebar-section:last-child {
+  border-bottom: none;
+  background-color: #F8FAFC;
+}
+
+/* 1. Profile Section styling - LARGER */
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.profile-badge-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  color: white;
+  font-family: var(--font-playful);
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(2, 132, 199, 0.2);
+  border: 3px solid white;
+  outline: 2px solid var(--border-color);
+}
+
+.profile-meta-details {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.profile-teacher-name {
+  font-family: var(--font-playful);
+  font-size: 20px; /* Larger font */
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-school-tag {
+  font-size: 13px; /* Larger font */
+  color: var(--text-light);
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+.profile-active-class-pill {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-color);
+  background: var(--accent-light);
+  padding: 3px 12px;
+  border-radius: 20px;
+  margin-top: 6px;
+  border: 1px solid var(--theme-science-border);
+}
+
+.sidebar-logout-trigger {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: var(--text-light);
+  padding: 6px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.sidebar-logout-trigger:hover {
+  color: var(--danger-color);
+  background: #FFF5F5;
+}
+
+/* 2. Navigation / Classroom Selector - LARGER */
+.sidebar-section-heading {
+  font-family: var(--font-playful);
+  font-size: 16px; /* Larger font */
+  color: var(--text-dark);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-dropdown-select {
+  width: 100%;
+  padding: 12px 16px; /* Larger padding */
+  border-radius: 12px;
+  border: var(--border-thick);
+  background-color: #F8FAFC;
+  font-size: 15px; /* Larger font */
+  font-weight: 600;
+  color: var(--text-dark);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.sidebar-dropdown-select:focus {
+  border-color: var(--accent-color);
+  background-color: white;
+  outline: none;
+}
+
+/* 3. Progress Tracking Circle Styling - LARGER */
+.progress-section {
+  text-align: center;
+}
+
+.sidebar-progress-ring-box {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  position: relative;
+}
+
+.progress-ring-svg {
+  transform: rotate(-90deg);
+}
+
+.progress-ring-circle-bg {
+  stroke: #F1F5F9;
+}
+
+.progress-ring-circle-fill {
+  stroke: var(--success-color);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease-in-out;
+}
+
+.progress-ring-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.progress-ring-num {
+  font-family: var(--font-playful);
+  font-size: 32px; /* Bigger stats percentage */
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.progress-ring-label {
+  font-size: 11px;
+  color: var(--text-light);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-top: -2px;
+}
+
+.sidebar-progress-text-details {
+  font-size: 15px; /* Larger font */
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.linear-progress-bar-outer {
+  height: 12px; /* Larger bar */
+  background: #EDF2F7;
+  border-radius: 10px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.linear-progress-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success-color), #34D399);
+  border-radius: 10px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 4. Action Buttons (Creation & Calendar) Styling */
+.action-section {
+  margin-top: auto;
+  border-top: 2px solid var(--border-color);
+  background-color: #F8FAFC;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Gap between buttons */
+  padding: 24px;
+}
+
+.sidebar-current-lesson-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #0284C7, #0EA5E9);
+  color: white;
+  font-family: var(--font-playful);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 #0369A1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s;
+}
+
+.sidebar-current-lesson-btn:hover {
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 #0369A1;
+  filter: brightness(1.05);
+}
+
+.sidebar-current-lesson-btn:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.sidebar-creation-button {
+  width: 100%;
+  background: var(--accent-color);
+  color: white;
+  font-family: var(--font-playful);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 var(--accent-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s;
+}
+
+.sidebar-creation-button:hover {
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 var(--accent-hover);
+}
+
+.sidebar-creation-button:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.sidebar-calendar-button {
+  width: 100%;
+  background: white;
+  color: var(--accent-color);
+  border: 2px solid var(--accent-color);
+  font-family: var(--font-playful);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 var(--theme-science-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s;
+}
+
+.sidebar-calendar-button:hover {
+  background: var(--accent-light);
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 var(--theme-science-border);
+}
+
+.sidebar-calendar-button:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-sidebar {
+    width: 100%;
+    position: static;
+    height: auto;
+  }
+}

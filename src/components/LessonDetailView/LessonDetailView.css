@@ -1,0 +1,397 @@
+.detail-view-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(248, 250, 252, 0.98);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+
+/* Category soft backdrops - optimized for the eyes */
+.detail-view-overlay.Science { background-color: #F0F9FF; }
+.detail-view-overlay.Art { background-color: #FDF2F8; }
+.detail-view-overlay.Music { background-color: #FFFBEB; }
+.detail-view-overlay.Reading { background-color: #F5F3FF; }
+.detail-view-overlay.Play { background-color: #F0FDF4; }
+
+.detail-nav-bar {
+  padding: 24px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-back-btn {
+  background: white;
+  border: 2px solid var(--text-dark);
+  color: var(--text-dark);
+  font-family: var(--font-playful);
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 0 var(--text-dark);
+  transition: all 0.15s;
+}
+
+.detail-back-btn:hover {
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 var(--text-dark);
+}
+
+.detail-back-btn:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.detail-week-marker {
+  font-family: var(--font-playful);
+  font-size: 18px;
+  background: white;
+  border: 2px solid var(--accent-color);
+  color: var(--accent-color);
+  padding: 6px 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 var(--accent-color);
+}
+
+/* Storybook Container */
+.storybook-container {
+  flex-grow: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto 40px auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Page Left styling */
+.storybook-page-left {
+  background: white;
+  border: 2px solid var(--text-dark);
+  border-radius: 24px;
+  box-shadow: 0 12px 0 rgba(15, 23, 42, 0.05);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.detail-image-box {
+  height: 240px;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid var(--border-color);
+}
+
+.detail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-meta-capsules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.detail-capsule {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: var(--border-thick);
+  background: #FFF;
+  color: var(--text-dark);
+}
+
+.detail-capsule.class { background: var(--accent-light); border-color: var(--theme-science-border); }
+.detail-capsule.time { background: var(--primary-light); border-color: var(--theme-music-border); }
+.detail-capsule.date { background: var(--success-light); border-color: var(--theme-play-border); }
+
+.detail-topic-title {
+  font-family: var(--font-playful);
+  font-size: 28px;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+.detail-outcome-box {
+  background: #F8FAFC;
+  border: var(--border-thick);
+  padding: 18px;
+  border-radius: 16px;
+}
+
+.detail-section-title {
+  font-family: var(--font-playful);
+  font-size: 16px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-outcome-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Page Right styling */
+.storybook-page-right {
+  background: white;
+  border: 2px solid var(--text-dark);
+  border-radius: 24px;
+  box-shadow: 0 12px 0 rgba(15, 23, 42, 0.05);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Materials Interactive list */
+.detail-materials-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.materials-interactive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.material-checkbox-item {
+  border: var(--border-thick);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #F8FAFC;
+  color: var(--text-muted);
+}
+
+.material-checkbox-item.checked {
+  background: var(--primary-light);
+  border-color: var(--primary-color);
+  text-decoration: line-through;
+  color: var(--text-light);
+}
+
+/* Step checklists styling */
+.detail-steps-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.steps-interactive-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-interactive-item {
+  border: var(--border-thick);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #FFF;
+}
+
+.step-interactive-item.completed {
+  border-color: var(--success-color);
+  background: var(--success-light);
+}
+
+.step-checkbox-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.step-interactive-item.completed .step-checkbox-box {
+  background: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.step-body-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.step-interactive-num {
+  font-family: var(--font-playful);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-light);
+}
+
+.step-interactive-item.completed .step-interactive-num {
+  color: var(--success-color);
+}
+
+.step-interactive-text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text-dark);
+}
+
+.step-interactive-item.completed .step-interactive-text {
+  text-decoration: line-through;
+  color: var(--text-light);
+}
+
+.steps-empty-placeholder {
+  background: #F8FAFC;
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Completion Banner styling */
+.detail-completion-banner {
+  border-top: 2px dashed var(--border-color);
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.detail-completion-label {
+  font-family: var(--font-playful);
+  font-size: 15px;
+  color: var(--text-dark);
+}
+
+.detail-complete-toggle-btn {
+  background: var(--success-color);
+  color: white;
+  font-family: var(--font-playful);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 var(--success-hover);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s;
+}
+
+.detail-complete-toggle-btn:hover {
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 var(--success-hover);
+}
+
+.detail-complete-toggle-btn:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.detail-completed-stamp-box {
+  background: var(--success-light);
+  border: 3px solid var(--success-color);
+  border-radius: 14px;
+  padding: 12px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--success-color);
+  font-family: var(--font-playful);
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(5, 150, 105, 0.1);
+  animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.detail-completed-btn-reset {
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+.detail-completed-btn-reset:hover {
+  color: var(--danger-color);
+}
+
+.detail-delete-btn {
+  background: white;
+  border: 2px solid var(--danger-color);
+  color: var(--danger-color);
+  font-family: var(--font-playful);
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 #FCA5A5;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.detail-delete-btn:hover {
+  background: #FFF5F5;
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 #FCA5A5;
+}
+
+.detail-delete-btn:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+@media (max-width: 1100px) {
+  .storybook-container {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+  }
+}

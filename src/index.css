@@ -1,0 +1,163 @@
+/* Global base resets and theme variables */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* FirstCry Brand-Inspired Easy-on-the-Eyes Color System */
+  --primary-color: #FF9212; /* FirstCry Orange */
+  --primary-hover: #E07E0D;
+  --primary-light: #FFF3E0; /* Soft pastel orange */
+  --primary-bg: #FFFDF9;
+  
+  --accent-color: #D12E8B; /* FirstCry Pinkish Magenta */
+  --accent-hover: #B02073;
+  --accent-light: #FDF2F8;
+  
+  --success-color: #689F38; /* FirstCry Lime Green (Deep contrast readable) */
+  --success-hover: #558B2F;
+  --success-light: #F1F8E9;
+  --success-border: #DCEDC8;
+  
+  --danger-color: #DC2626; /* Deep crimson red */
+  --danger-hover: #B91C1C;
+  
+  --bg-main: #F8FAFC; /* Slate-tinted clear background */
+  --bg-workspace: #F1F5F9;
+  --card-bg: #FFFFFF;
+  
+  /* Deep slate contrast for text - extremely readable */
+  --text-dark: #2C2C2C; /* Rich charcoal like FirstCry tagline */
+  --text-muted: #4A4A4A; 
+  --text-light: #757575; 
+  
+  /* Structural borders to prevent floating effect */
+  --border-color: #E0E0E0;
+  --border-thick: 2px solid #E0E0E0;
+  --border-card: 2px solid #E0E0E0;
+  --border-card-hover: 2px solid #FF9212;
+  
+  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.01);
+  --shadow-card-hover: 0 12px 24px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03);
+  --shadow-pop: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+  
+  --font-playful: 'Fredoka', cursive, sans-serif;
+  --font-body: 'Quicksand', sans-serif;
+  
+  /* FirstCry Soft Category Colors (optimized for high-contrast slate text) */
+  --theme-science: #E0F7FA; /* FirstCry Sky Blue light */
+  --theme-science-text: #00838F;
+  --theme-science-border: #B2EBF2;
+  
+  --theme-art: #FDF2F8; /* FirstCry Pink/Magenta light */
+  --theme-art-text: #C2185B;
+  --theme-art-border: #FBCFE8;
+  
+  --theme-music: #F1F8E9; /* FirstCry Lime Green light */
+  --theme-music-text: #558B2F;
+  --theme-music-border: #DCEDC8;
+  
+  --theme-reading: #FFF3E0; /* FirstCry Orange light */
+  --theme-reading-text: #E65100;
+  --theme-reading-border: #FFE0B2;
+  
+  --theme-play: #FFFDE7; /* Soft pastel gold/yellow light */
+  --theme-play-text: #F57F17;
+  --theme-play-border: #FFF9C4;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-main);
+  color: var(--text-muted);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input, select, textarea, button {
+  font-family: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* ==========================================================================
+   FirstCry Global Logo Styles
+   ========================================================================== */
+.firstcry-logo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.1;
+}
+
+.firstcry-logo-main {
+  display: flex;
+  align-items: flex-end;
+  font-family: var(--font-playful);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.firstcry-letter.orange { color: #FF9212; }
+.firstcry-letter.magenta { color: #D12E8B; }
+.firstcry-letter.lime { color: #97D73D; }
+.firstcry-letter.blue { color: #59C3E1; }
+
+.firstcry-com-bubble {
+  background-color: #D12E8B;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 5px;
+  margin-left: 2px;
+  margin-bottom: 5px;
+  position: relative;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+
+.firstcry-com-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 6px;
+  border-width: 4px 4px 0 0;
+  border-style: solid;
+  border-color: #D12E8B transparent transparent transparent;
+}
+
+.firstcry-tagline {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-top: 2px;
+  letter-spacing: 0.2px;
+}

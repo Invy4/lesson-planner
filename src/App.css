@@ -1,0 +1,317 @@
+/* Macro Layout Alignments and Shared Page Animations */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes confettiFall {
+  0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes bounceSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Base App Wrapper */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-main);
+}
+
+/* Two-column dashboard split layout - Full-bleed screen splitter */
+.main-layout {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  align-items: stretch; /* Stretch children to fill heights */
+}
+
+/* Week Planner Feed (Right Side Panel - Scrollable & Padded) */
+.planner-feed {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  min-width: 0;
+  padding: 40px 48px; /* Generous padded grid - bigger spaces */
+  background-color: var(--bg-workspace); /* Soft contrast backdrop */
+}
+
+/* Week Categorization sections */
+.week-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Bigger spacing */
+}
+
+.week-title-badge {
+  font-family: var(--font-playful);
+  font-size: 24px; /* Larger font */
+  color: var(--text-dark);
+  background: var(--primary-light);
+  border: var(--border-thick);
+  border-left: 8px solid var(--primary-color); /* Thicker border */
+  padding: 10px 24px; /* Generous padding */
+  border-radius: 12px;
+  align-self: flex-start;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Daily groupings inside weekly list */
+.week-days-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.day-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.day-group-title {
+  font-family: var(--font-playful);
+  font-size: 18px; /* Prominent legible weekday label */
+  color: var(--text-muted);
+  background: white;
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 10px;
+  border: var(--border-thick);
+  align-self: flex-start;
+  box-shadow: var(--shadow-soft);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* Widened grids for larger components */
+.week-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); /* Enlarged card columns */
+  gap: 28px;
+}
+
+/* Empty State styling */
+.empty-feed-card {
+  background: var(--card-bg);
+  border: 2px dashed var(--border-color);
+  border-radius: 16px;
+  padding: 60px 40px;
+  text-align: center;
+  color: var(--text-light);
+  box-shadow: var(--shadow-soft);
+}
+
+.empty-icon-box {
+  font-size: 54px;
+  margin-bottom: 12px;
+  animation: bounceSlow 3s infinite ease-in-out;
+}
+
+.empty-feed-card h4 {
+  font-family: var(--font-playful);
+  font-size: 20px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.empty-feed-card p {
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* Confetti particles generator */
+.confetti-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2000;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #F00;
+  border-radius: 2px;
+  opacity: 0;
+  top: -20px;
+  animation: confettiFall 3.5s linear infinite;
+}
+
+/* Small screen scaling overrides */
+@media (max-width: 1100px) {
+  .main-layout {
+    flex-direction: column;
+    padding: 20px;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-layout {
+    padding: 16px 12px;
+  }
+  .week-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Active Lesson Quick Jump Banner Styles
+   ========================================================================== */
+.active-lesson-quick-jump-banner {
+  background: linear-gradient(135deg, #FFFDF5 0%, #FEF9E7 100%);
+  border: var(--border-thick);
+  border-color: #FDE047;
+  border-radius: 16px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 20px -2px rgba(254, 249, 231, 0.5), var(--shadow-soft);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.banner-left-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.banner-live-badge {
+  background: #FEF2F2;
+  color: #DC2626;
+  border: 1px solid #FEE2E2;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #DC2626;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+.banner-lesson-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.banner-lesson-topic {
+  font-family: var(--font-playful);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.banner-lesson-times {
+  font-size: 13px;
+  color: var(--text-light);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.banner-divider {
+  color: var(--border-color);
+}
+
+.banner-jump-button {
+  background: var(--text-dark);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-family: var(--font-playful);
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+.banner-jump-button:hover {
+  background: #1E293B;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+}
+
+.banner-jump-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .active-lesson-quick-jump-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+  
+  .banner-left-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .banner-jump-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

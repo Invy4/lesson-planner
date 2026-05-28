@@ -1,0 +1,297 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  padding: 20px;
+}
+
+.modal-content {
+  background: var(--card-bg);
+  border: 2px solid var(--text-dark);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 860px; /* Significantly enlarged creation form */
+  box-shadow: var(--shadow-pop);
+  animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 22px 32px;
+  border-bottom: 2px solid var(--border-color);
+  background: #F8FAFC;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-family: var(--font-playful);
+  font-size: 24px; /* Larger font */
+  color: var(--text-dark);
+}
+
+.close-modal-btn {
+  color: var(--text-light);
+  border-radius: 50%;
+  padding: 8px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-modal-btn:hover {
+  background: #FFF5F5;
+  color: var(--danger-color);
+  transform: rotate(90deg);
+}
+
+.modal-form-scrollable {
+  padding: 32px; /* Taller padding */
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.form-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px; /* Larger gap */
+}
+
+.form-row {
+  margin-bottom: 24px; /* Larger spacing */
+}
+
+.form-label {
+  display: block;
+  text-align: left;
+  font-family: var(--font-playful);
+  font-size: 16px; /* Larger legible labels */
+  color: var(--text-dark);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.form-input-text, .form-textarea, .form-select {
+  width: 100%;
+  padding: 14px 18px; /* Taller padding, easy to click */
+  border-radius: 12px;
+  border: var(--border-thick);
+  background-color: #F8FAFC;
+  font-size: 16px; /* Extremely readable font */
+  font-weight: 500;
+  transition: all 0.3s;
+  color: var(--text-dark);
+}
+
+.form-input-text:focus, .form-textarea:focus, .form-select:focus {
+  border-color: var(--accent-color);
+  background-color: white;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+}
+
+.form-textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* Steps builder container */
+.modal-steps-container {
+  background: #F8FAFC;
+  border: 2px dashed var(--border-color);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-step-builder-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.step-num-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: var(--accent-color);
+  font-family: var(--font-playful);
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--theme-science-border);
+}
+
+.add-step-btn {
+  align-self: flex-start;
+  background: white;
+  border: 2px solid var(--accent-color);
+  color: var(--accent-color);
+  font-family: var(--font-playful);
+  font-weight: 600;
+  font-size: 14px; /* Larger font */
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-soft);
+}
+
+.add-step-btn:hover {
+  background: var(--accent-color);
+  color: white;
+}
+
+.remove-step-btn {
+  color: var(--text-light);
+  transition: color 0.2s;
+  padding: 4px;
+}
+
+.remove-step-btn:hover {
+  color: var(--danger-color);
+}
+
+/* Footer layout */
+.modal-footer {
+  padding: 20px 32px;
+  border-top: 2px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  background: #F8FAFC;
+}
+
+.cancel-modal-btn {
+  font-family: var(--font-playful);
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: var(--border-thick);
+  background: white;
+  transition: all 0.2s;
+  font-size: 15px;
+}
+
+.cancel-modal-btn:hover {
+  background: #F1F5F9;
+}
+
+.submit-modal-btn {
+  background: var(--accent-color);
+  color: white;
+  font-family: var(--font-playful);
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 var(--accent-hover);
+  transition: all 0.15s;
+  font-size: 15px;
+}
+
+.submit-modal-btn:hover {
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 var(--accent-hover);
+}
+
+.submit-modal-btn:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .form-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   n8n AI Co-Pilot Styling Rules
+   ========================================================================== */
+.n8n-generator-card {
+  background: linear-gradient(135deg, #FDF2F8 0%, #FFF3E0 100%);
+  border: 2px solid #FBCFE8;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.n8n-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.n8n-tag {
+  font-family: var(--font-playful);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-color);
+  background: white;
+  border: 2px solid var(--accent-color);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 0 var(--accent-color);
+}
+
+.n8n-generate-btn {
+  font-family: var(--font-playful);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: 2px solid var(--text-dark);
+  box-shadow: 0 3px 0 var(--text-dark);
+  transition: all 0.15s ease-in-out;
+}
+
+.n8n-generate-btn:not(:disabled):hover {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 var(--text-dark);
+}
+
+.n8n-generate-btn:not(:disabled):active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.n8n-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.n8n-input-help {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-top: 2px;
+}
