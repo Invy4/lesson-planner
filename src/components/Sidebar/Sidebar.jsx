@@ -14,7 +14,7 @@ export default function Sidebar({
   onOpenAiCreate,
   CLASSES 
 }) {
-  // Get teacher's first letter for initials avatar placeholder
+  
   const getInitial = (name) => {
     if (!name) return 'T';
     return name.trim().charAt(0).toUpperCase();

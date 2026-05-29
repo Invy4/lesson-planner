@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Zap } from 'lucide-react';
 import './App.css';
 
-// Import Refactored Modular Components from Subdirectories
+
 import LoginForm from './components/LoginForm/LoginForm';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
@@ -11,7 +11,7 @@ import LessonDetailView from './components/LessonDetailView/LessonDetailView';
 import CreateModal from './components/CreateModal/CreateModal';
 import CalendarModal from './components/CalendarModal/CalendarModal';
 
-// Constants
+
 const CLASSES = [
   "Playgroup (2-3 yrs)",
   "Nursery (3-4 yrs)",
@@ -27,7 +27,7 @@ const CATEGORIES = [
   { id: 'Play', label: '🏃 Play & Physical' }
 ];
 
-// Weekday sorting order (Monday through Sunday)
+
 const WEEKDAY_ORDER = [
   "Monday",
   "Tuesday",
@@ -39,7 +39,7 @@ const WEEKDAY_ORDER = [
 ];
 
 const INITIAL_LESSON_PLANS = [
-  // --- FRIDAY MAY 22 ---
+  
   {
     id: "seed-w4-f1",
     className: "Nursery (3-4 yrs)",
@@ -83,7 +83,7 @@ const INITIAL_LESSON_PLANS = [
     customImage: ""
   },
 
-  // --- SATURDAY MAY 23 ---
+  
   {
     id: "seed-w4-s1",
     className: "Nursery (3-4 yrs)",
@@ -127,7 +127,7 @@ const INITIAL_LESSON_PLANS = [
     customImage: ""
   },
 
-  // --- SUNDAY MAY 24 ---
+  
   {
     id: "seed-w4-u1",
     className: "LKG / Junior KG (4-5 yrs)",
@@ -171,7 +171,7 @@ const INITIAL_LESSON_PLANS = [
     customImage: ""
   },
 
-  // --- MONDAY MAY 25 ---
+  
   {
     id: "seed-w4-m1",
     className: "Playgroup (2-3 yrs)",
@@ -215,7 +215,7 @@ const INITIAL_LESSON_PLANS = [
     customImage: ""
   },
 
-  // --- TUESDAY MAY 26 ---
+  
   {
     id: "seed-w4-t1",
     className: "LKG / Junior KG (4-5 yrs)",
@@ -259,7 +259,7 @@ const INITIAL_LESSON_PLANS = [
     customImage: ""
   },
 
-  // --- WEDNESDAY MAY 27 ---
+  
   {
     id: "seed-w4-w1",
     className: "UKG / Senior KG (5-6 yrs)",
@@ -303,7 +303,7 @@ const INITIAL_LESSON_PLANS = [
     customImage: ""
   },
 
-  // --- THURSDAY MAY 28 (TODAY!) ---
+  
   {
     id: "seed-w4-h1",
     className: "Nursery (3-4 yrs)",
@@ -349,9 +349,9 @@ const INITIAL_LESSON_PLANS = [
 ];
 
 export default function App() {
-  // --------------------------------------------------------------------------
-  // 1. STATE & STORAGE
-  // --------------------------------------------------------------------------
+  
+  
+  
   const [profile, setProfile] = useState(() => {
     const saved = localStorage.getItem('preschool_teacher_profile');
     return saved ? JSON.parse(saved) : { isLoggedIn: false, name: '', class: CLASSES[1] };
@@ -361,7 +361,7 @@ export default function App() {
     const saved = localStorage.getItem('preschool_lesson_plans');
     if (saved) {
       const parsed = JSON.parse(saved);
-      // Force sync to load new seed lessons in Week 4 if they aren't pre-saved!
+      
       if (!parsed.some(l => l.id === 'seed-w4-s1')) {
         return INITIAL_LESSON_PLANS;
       }
@@ -377,7 +377,7 @@ export default function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [confetti, setConfetti] = useState([]);
 
-  // Form State
+  
   const [newPlan, setNewPlan] = useState({
     className: CLASSES[0],
     topic: '',
@@ -387,14 +387,14 @@ export default function App() {
     endTime: '09:45',
     learningOutcome: '',
     materialsInput: '',
-    steps: [], // Default to empty array - steps are fully optional!
+    steps: [], 
     imageFile: ''
   });
 
-  // n8n Webhook settings state
+  
   const [n8nWebhookUrl, setN8nWebhookUrl] = useState(() => {
     const saved = localStorage.getItem('preschool_n8n_webhook');
-    // Force set the correct production URL if cache is empty, old, or pointing to a test webhook
+    
     if (!saved || saved.trim() === '' || saved.includes('/webhook-test/') || saved.includes('lify-lignis')) {
       return 'https://iify-iignis-0.app.n8n.cloud/webhook/generate-full-lesson';
     }
@@ -404,9 +404,9 @@ export default function App() {
   const [aiPreviewData, setAiPreviewData] = useState(null);
   const [isAiModeOnly, setIsAiModeOnly] = useState(false);
 
-  // --------------------------------------------------------------------------
-  // 2. EFFECTS
-  // --------------------------------------------------------------------------
+  
+  
+  
   useEffect(() => {
     localStorage.setItem('preschool_teacher_profile', JSON.stringify(profile));
     if (profile.isLoggedIn && activeClassFilter === 'All Classes') {
@@ -429,9 +429,9 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // --------------------------------------------------------------------------
-  // 3. ANCILLARY HANDLERS (WEEKS & CONFETTI)
-  // --------------------------------------------------------------------------
+  
+  
+  
   const triggerConfetti = () => {
     const particles = [];
     const colors = ['#E2B007', '#0284C7', '#059669', '#DC2626', '#8B5CF6', '#F59E0B', '#3B82F6'];
@@ -465,9 +465,9 @@ export default function App() {
     return new Date(dateStr).toLocaleDateString('en-US', options);
   };
 
-  // --------------------------------------------------------------------------
-  // 4. MEMOIZED FILTER & PROGRESS CALCULATORS
-  // --------------------------------------------------------------------------
+  
+  
+  
   const filteredLessons = useMemo(() => {
     let list = lessons;
     if (activeClassFilter !== 'All Classes') {
@@ -476,7 +476,7 @@ export default function App() {
     return [...list].sort((a, b) => new Date(a.date) - new Date(b.date));
   }, [lessons, activeClassFilter]);
 
-  // Group lessons by Week AND Day of the week (avoids empty spaces)
+  
   const groupedLessons = useMemo(() => {
     const groups = {};
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -511,9 +511,9 @@ export default function App() {
     return { total, completed, percentage };
   }, [lessons, activeClassFilter]);
 
-  // --------------------------------------------------------------------------
-  // 5. EVENT CONTROLLERS
-  // --------------------------------------------------------------------------
+  
+  
+  
   const handleLogin = (e) => {
     e.preventDefault();
     if (!profile.name.trim()) return;
@@ -559,19 +559,19 @@ export default function App() {
     const newStart = parseLessonTime(date, formatTimeInput(startStr));
     const newEnd = parseLessonTime(date, formatTimeInput(endStr));
     
-    // 1. Check if start time is behind end time
+    
     if (newStart >= newEnd) {
       return { conflict: true, message: "⚠️ Invalid Time: The Start Time must be earlier than the End Time!" };
     }
     
-    // 2. Check for overlaps with existing lessons on the same date
+    
     const sameDayLessons = lessons.filter(l => l.date === date && l.id !== excludeId);
     
     for (let lesson of sameDayLessons) {
       const existStart = parseLessonTime(lesson.date, lesson.startTime);
       const existEnd = parseLessonTime(lesson.date, lesson.endTime);
       
-      // Overlap condition: (newStart < existEnd) && (newEnd > existStart)
+      
       if (newStart < existEnd && newEnd > existStart) {
         return { 
           conflict: true, 
@@ -594,7 +594,7 @@ export default function App() {
       return;
     }
 
-    // Check for timeline conflicts BEFORE querying n8n
+    
     const conflictCheck = checkTimeConflict(newPlan.date, newPlan.startTime, newPlan.endTime);
     if (conflictCheck.conflict) {
       alert(conflictCheck.message);
@@ -627,7 +627,7 @@ export default function App() {
       
       const data = await response.json();
       
-      // Map response to lesson fields
+      
       const finalCategory = data.category || newPlan.category || 'Science';
       const finalTopic = data.topic || newPlan.topic;
       const finalOutcome = data.learningOutcome || "Observe and play together.";
@@ -703,7 +703,7 @@ export default function App() {
     setAiPreviewData(null);
     setIsModalOpen(false);
     
-    // Reset plan form states
+    
     setNewPlan({
       className: profile.class || CLASSES[0],
       topic: '',
@@ -737,7 +737,7 @@ export default function App() {
     });
     
     setAiPreviewData(null);
-    setIsAiModeOnly(false); // Enable manual editing of the generated fields!
+    setIsAiModeOnly(false); 
   };
 
   const parseLessonTime = (dateStr, timeStr) => {
@@ -755,7 +755,11 @@ export default function App() {
 
   const findCurrentLesson = () => {
     const now = currentTime;
-    const todayStr = now.toISOString().split('T')[0];
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const todayStr = `${year}-${month}-${day}`;
+    
     const todayLessons = lessons.filter(l => l.date === todayStr);
     
     const happeningNow = todayLessons.find(l => {
@@ -764,36 +768,7 @@ export default function App() {
       return now >= start && now <= end;
     });
     
-    if (happeningNow) return happeningNow;
-    
-    const upcomingToday = todayLessons
-      .filter(l => {
-        const start = parseLessonTime(l.date, l.startTime);
-        return start > now;
-      })
-      .sort((a, b) => {
-        const startA = parseLessonTime(a.date, a.startTime);
-        const startB = parseLessonTime(b.date, b.startTime);
-        return startA - startB;
-      });
-      
-    if (upcomingToday.length > 0) return upcomingToday[0];
-    
-    const futureLessons = lessons
-      .filter(l => new Date(l.date + "T00:00:00") >= new Date(todayStr + "T00:00:00"))
-      .filter(l => {
-        const start = parseLessonTime(l.date, l.startTime);
-        return start > now;
-      })
-      .sort((a, b) => {
-        const startA = parseLessonTime(a.date, a.startTime);
-        const startB = parseLessonTime(b.date, b.startTime);
-        return startA - startB;
-      });
-      
-    if (futureLessons.length > 0) return futureLessons[0];
-    
-    return null;
+    return happeningNow || null;
   };
 
   const handleGoToCurrent = () => {
@@ -802,7 +777,7 @@ export default function App() {
       setSelectedLesson(active);
       triggerConfetti();
     } else {
-      alert("☕ No lessons are scheduled right now or in the near future! Relax and enjoy a break.");
+      alert("☕ No lessons are scheduled right now! Relax and enjoy a break.");
     }
   };
 
@@ -836,7 +811,7 @@ export default function App() {
     e.preventDefault();
     if (!newPlan.topic.trim()) return;
 
-    // Check for timeline conflicts
+    
     const conflictCheck = checkTimeConflict(newPlan.date, newPlan.startTime, newPlan.endTime);
     if (conflictCheck.conflict) {
       alert(conflictCheck.message);
@@ -896,9 +871,9 @@ export default function App() {
     return `${formattedHour}:${m} ${ampm}`;
   };
 
-  // --------------------------------------------------------------------------
-  // 6. WORKSPACE RENDER
-  // --------------------------------------------------------------------------
+  
+  
+  
   if (!profile.isLoggedIn) {
     return (
       <LoginForm 
